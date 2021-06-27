@@ -74,14 +74,15 @@ systemctl restart kubelet
 
 systemctl daemon-reload
 
-#Set up local kubeconfig:
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
 
 # Initialising the control-plane node run the below command on the (master node)
 sudo kubeadm init
 
+#Set up local kubeconfig:
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # If you need to generate a new tokem use the below command (Optional Not required , if you have the above token generated)
     sudo kubeadm token create --print-join-command
