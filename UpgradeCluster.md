@@ -35,4 +35,4 @@
 * Verify the nodes
 ``` kubectl get nodes ```
 * uncordon the Worker node (Note: You need to login to master to execute the uncordon command) 
-``` kubectl uncordon worker-1``
+``` kubectl uncordon worker-1 ```
