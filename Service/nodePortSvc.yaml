@@ -1,1 +1,12 @@
 # Node Port Example
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeport
+spec:
+  ports:
+  - port: 80 # Svc port
+    targetPort: 80 # application , container port
+  selector:
+    colour: green
+  type: NodePort
