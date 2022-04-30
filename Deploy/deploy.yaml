@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: new-deploy
+  labels:
+    app: account
+spec:
+  selector:
+    matchLabels:
+      env: prod
+  replicas: 2
+  template:
+    metadata:
+      name: new-deploy-pod
+      labels:
+        env: prod
+    spec:
+      containers:
+      - image: nginx
+        name: prodnginx

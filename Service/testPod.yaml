@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-svc-test
+spec:
+  containers:
+  - image: radial/busyboxplus:curl
+    name: busybox
+    command: ['sh', '-c', 'while true; do sleep 10; done']
