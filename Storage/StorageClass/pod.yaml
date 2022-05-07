@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox
+spec:
+  template:
+    metadata:
+      name: busybox-pod
+      labels:
+        ex: example
+    spec:
+      containers:
+        - name: busybox
+          image: busybox
+          command: ["/bin/sh", "-c", "while true; do sleep 3600; done"]
+          volumeMounts:
+            - name: my-storage
+              mountPath: "/siva"
+              # readOnly: true
+      volumes:
+        - name: my-storage
+          persistentVolumeClaim:
+            claimName: pvc-claim
+            # readOnly: true
+  replicas: 1
+  selector:
+    matchLabels:
+      ex: example
