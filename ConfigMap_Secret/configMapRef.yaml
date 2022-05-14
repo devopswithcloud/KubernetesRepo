@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-demo-pod
+spec:
+  containers:
+    - name: demo
+      image: alpine
+      command: ["sleep", "3600"]
+      envFrom: # when using envFrom , complete config map will be passed into cntainer. i.e., all the keys in the cm will be populated.
+        - configMapRef:
+            name: my-config 

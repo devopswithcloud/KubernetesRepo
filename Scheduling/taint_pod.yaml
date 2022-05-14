@@ -1,0 +1,52 @@
+
+# kubectl describe node nodenamae | grep -i taints*
+# kubectl describe node nodename color=blue:NoSchedule
+
+
+---
+# 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bluepod
+spec:
+  nodeSelector:
+    color: blue
+  containers:
+  - image: nginx
+    name: nginx
+  tolerations:
+    - key: "color"
+      operator: "Equal"
+      value: "blue"
+      effect: "NoSchedule"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: colorpod
+  name: colorpod
+spec:
+  tolerations:
+  - key: "color"
+    operator: "Exists"
+    effect: "NoSchedule"
+  containers:
+  - image: nginx
+    name: colorpod
+--- 
+ 
+# kubectl taint node nodename key=value:NoSchedule
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bluepod
+spec: 
+  containers:
+  - image: nginx
+    name: nginx
+

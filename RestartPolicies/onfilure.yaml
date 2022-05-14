@@ -1,0 +1,14 @@
+# Creating failure
+apiVersion: v1
+kind: Pod
+metadata:
+  name: onfailure-pod
+spec: 
+  restartPolicy: OnFailure
+  containers:
+  - image: busybox
+    name: busybox
+    command:
+    - "sh"
+    - "-c"
+    - "sleep 10 && randomefdf"

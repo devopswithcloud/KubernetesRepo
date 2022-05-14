@@ -1,0 +1,25 @@
+#kubectl label node nodename disktype=ssd
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deploy
+  labels:
+    app: deploy
+spec:
+  selector:
+    matchLabels:
+      env: test
+  replicas: 1
+  template:
+    metadata:
+      name: my-pod
+      labels:
+        env: test
+    spec:
+      containers:
+        - image: devopswithcloudhub/python_webpage:blue
+          name: blue
+      nodeSelector:
+        disktype: ssd
+#kubectl label node nodename disktype=ssd
