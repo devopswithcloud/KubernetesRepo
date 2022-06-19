@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-example
+spec:
+  template:
+    spec:
+      containers:
+      - name: job-cont
+        image: busybox:stable
+        command: ['echo', 'Welcome to k8s training']
+      restartPolicy: Never
+  backoffLimit: 4
+  activeDeadlineSeconds: 10
