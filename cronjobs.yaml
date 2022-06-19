@@ -1,0 +1,17 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cronjob-example
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+           - name: cron-container
+             image: busybox:stable
+             command: ["echo", "Welcome to cron job!"]
+          restartPolicy: Never
+      backoffLimit: 4
+      activeDeadlineSeconds: 10
