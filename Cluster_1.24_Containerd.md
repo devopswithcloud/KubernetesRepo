@@ -40,7 +40,7 @@ sudo containerd config default | sudo tee /etc/containerd/config.toml
 sudo systemctl restart containerd
 
 # Verify that containerd is running:
-sudo systemctl status containerd
+# sudo systemctl status containerd
 
 # Disable swap:
 sudo swapoff -a
