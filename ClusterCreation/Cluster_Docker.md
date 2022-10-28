@@ -32,6 +32,7 @@ sudo service ssh restart
 
 [Installing Docker on ubuntu](https://docs.docker.com/engine/install/ubuntu/)
 ```bash
+# Set up the repository
 sudo apt-get update
 sudo apt-get install \
     apt-transport-https \
@@ -39,15 +40,27 @@ sudo apt-get install \
     curl \
     gnupg \
     lsb-release -y
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
+
+# Add Docker’s official GPG key:
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+# Use the following command to set up the repository:
 echo \
-  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
+# Install Docker Engine
 sudo apt-get update
 
-sudo apt-get install docker-ce=5:19.03.12~3-0~ubuntu-bionic -y
+
+# To install the latest version, run:
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+
+# To install specific version , do refer documentation
+
 sudo apt-mark hold docker-ce
 sudo usermod -aG docker username
 sudo docker version
@@ -69,7 +82,7 @@ echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https:/
 
 # Update apt package index, install kubelet, kubeadm and kubectl with a specific version, and pin their version:
 sudo apt-get update
-sudo apt-get install -y kubelet=1.19.1-00 kubeadm=1.19.1-00 kubectl=1.19.1-00
+sudo apt-get install -y kubelet=1.24.0-00 kubeadm=1.24.0-00 kubectl=1.24.0-00
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
