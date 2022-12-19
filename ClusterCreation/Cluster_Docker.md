@@ -103,9 +103,10 @@ systemctl daemon-reload
 sudo kubeadm init
 
 # If we get error wrt container runtime not running , execute the below commands
-```
+
 rm /etc/containerd/config.toml
 systemctl restart containerd
+```
 ```
 
 
