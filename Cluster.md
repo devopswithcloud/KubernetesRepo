@@ -106,5 +106,6 @@ kubectl get nodes
 #Install CNI so that pods can communicate across nodes and also Cluster DNS to start functioning. Apply weave CNI (Container Network Interface) on the master node
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
 kubectl get nodes
-
+fasdklf asdfj 
+aajfaldsjf ad
 ```
