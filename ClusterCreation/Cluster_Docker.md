@@ -4,7 +4,7 @@ gcloud compute instances create master worker-1 worker-2 --create-disk=auto-dele
 ```
 
 
-### To Create a User in Ubuntu follow the below steps:
+### To Create a User in Ubuntu follow the below steps: (`Both master and worker`)
 ```bash
 $ adduser username
 #Example
