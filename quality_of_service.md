@@ -15,3 +15,61 @@
 ### Guaranteed
 * Pods that have equal amount of requests and limits.
 * These are been considered as the `highest priority` pods and guaranteed not to be killed before best-effort and burstable pods.
+
+
+### Below is the example for Best Effort
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: best-effort-pod
+spec: 
+  containers: 
+  - image: nginx
+    name: nginx
+    ports:
+    - containerPort: 80
+      protocol: TCP
+```
+### Below is the example for Burstable
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: burstable-pod
+spec: 
+  containers: 
+  - image: nginx
+    name: nginx
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: 200m
+        memory: 200Mi
+```
+### Below is the example for guarenteed
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: guarenty-pod
+spec: 
+  containers: 
+  - image: nginx
+    name: nginx
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: 100m
+        memory: 100Mi
+```
