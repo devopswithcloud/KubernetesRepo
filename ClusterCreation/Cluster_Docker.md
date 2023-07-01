@@ -89,7 +89,8 @@ curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
 # Update apt package index, install kubelet, kubeadm and kubectl with a specific version, and pin their version:
 sudo apt-get update
-sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-get install -y kubelet=1.27.1-00 kubeadm=1.27.1-00 kubectl=1.27.1-00
+#sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
