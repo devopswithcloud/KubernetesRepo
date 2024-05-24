@@ -129,7 +129,7 @@ sudo apt-get update
 ## Step 5: Install Kubernetes Components
 ```bash
 # Install Kubernetes components including kubelet, kubeadm, and kubectl:
-sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-get install -y kubeadm=1.28.9-2.1 kubelet=1.28.9-2.1 kubectl=1.28.9-2.1
 ```
 ## Step 6: Hold Kubernetes Packages
 ```bash
