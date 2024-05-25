@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: admission-pod
+  namespace: boutique-dev
+spec:
+  containers:
+  - name: busybox
+    image: busybox:stable
+    command: ['sh', '-c', 'while true; do echo Admissions!!!!!; sleep5; done']
+
+# sudo vi /etc/kubernetes/manifests/kube-apiserver.yaml
+
+# --enable-admission-plugins=NodeRestriction,NamespaceAutoProvision
