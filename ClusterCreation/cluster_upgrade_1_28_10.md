@@ -6,7 +6,7 @@ apt-mark unhold kubeadm && apt-get update && apt-get install -y kubeadm=1.28.10-
 
 apt-mark hold kubeadm
 kubeadm upgrade plan
-kubedm upgrade apply v1.28.10
+kubeadm upgrade apply v1.28.10
 kubectl drain master --ignore-daemonsets --force
 sudo apt-get install --only-upgrade kubelet=1.28.10-1.1
 sudo systemctl restart kubelet
