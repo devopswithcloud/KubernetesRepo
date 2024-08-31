@@ -1,10 +1,5 @@
-
-# kubectl describe node nodenamae | grep -i taints*
-# kubectl describe node nodename color=blue:NoSchedule
-
-
----
-# 
+# Taints and tolerations:
+# bluepod
 apiVersion: v1
 kind: Pod
 metadata:
@@ -13,8 +8,8 @@ spec:
   nodeSelector:
     color: blue
   containers:
-  - image: nginx
-    name: nginx
+    - image: nginx
+      name: blue
   tolerations:
     - key: "color"
       operator: "Equal"
@@ -24,29 +19,69 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  creationTimestamp: null
-  labels:
-    run: colorpod
-  name: colorpod
+  name: greenpod
 spec:
-  tolerations:
-  - key: "color"
-    operator: "Exists"
-    effect: "NoSchedule"
+  nodeSelector:
+    color: green
   containers:
-  - image: nginx
-    name: colorpod
---- 
- 
-# kubectl taint node nodename key=value:NoSchedule
-
+    - image: nginx
+      name: green
+  tolerations:
+    - key: "color"
+      operator: "Equal"
+      value: "green"
+      effect: "NoSchedule"
 ---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: bluepod
-spec: 
+  name: orangepod
+spec:
+  nodeSelector:
+    color: orange
   containers:
-  - image: nginx
-    name: nginx
+    - image: nginx
+      name: orange
+  tolerations:
+    - key: "color"
+      operator: "Equal"
+      value: "orange"
+      effect: "NoSchedule"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nocolorpod
+spec:
+  containers:
+    - image: nginx
+      name: nginx
 
+---
+# requiredDuringSchedulinIgnoredDuringExecution
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-deploy
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: nginx 
+    spec:
+      nodeSelector:
+        color: blue
+      tolerations:
+        - key: "color"
+          operator: "Equal"
+          value: "blue"
+          effect: "NoSchedule"
+      containers:
+        - image: nginx
+          name: nginx
+          ports:
+            - containerPort: 80
