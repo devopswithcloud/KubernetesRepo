@@ -146,6 +146,10 @@ Congratulations! 🎉 You have successfully completed the installation of Kubern
 
 # Initialising the control-plane node run the below command on the (master node)
 sudo kubeadm init
+# If we get error with iptables, execute the below ones on both master and worker
+modprobe br_netfilter
+echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
+echo 1 > /proc/sys/net/ipv4/ip_forward
 
 # If we get error wrt container runtime not running , execute the below commands
 
