@@ -3,7 +3,7 @@
 
 # Do remember , there is no need to do this step in exam. It will be already be available in the cluster
 wget https://github.com/etcd-io/etcd/releases/download/v3.4.32/etcd-v3.4.32-linux-amd64.tar.gz
-untar etcd-v3.4.32-linux-amd64.tar.gz
+tar xvf etcd-v3.4.32-linux-amd64.tar.gz
 cp etcd-v3.4.32-linux-amd64/etcd* /usr/bin/
 
 # get the files path
