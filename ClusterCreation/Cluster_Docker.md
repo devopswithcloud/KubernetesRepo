@@ -147,4 +147,11 @@ kubectl get nodes
 kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
 kubectl get nodes
 
+#Output
+root@master:~# kubectl get nodes
+NAME       STATUS   ROLES           AGE     VERSION
+master     Ready    control-plane   6m57s   v1.24.0
+worker-1   Ready    <none>          80s     v1.24.0
+worker-2   Ready    <none>          2m4s    v1.24.0
+root@master:~# 
 ```
