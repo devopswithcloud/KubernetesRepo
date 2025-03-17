@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodename-pod
+spec:
+  nodeName: gke-cluster-1-default-pool-8a2d5434-2r6g
+  containers:
+  - name: nginx
+    image: nginx
+
+---
+# Wrong node name
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodename-pod-wrong
+spec:
+  nodeName: gke-cluster-1-default-pool-8a2d5434-2r6g-wrong
+  containers:
+  - name: nginx
+    image: nginx

@@ -1,0 +1,26 @@
+# PVC with our new faster sc 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-claim
+spec: 
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: faster
+
+---
+# PVC with gke default sc
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-default
+spec: 
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 30Gi
+

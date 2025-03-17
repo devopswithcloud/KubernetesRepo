@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: nodeselector-deploy
+spec:
+  selector:
+    matchLabels:
+      env: test
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        env: test 
+    spec:
+      nodeSelector:
+        disktype: ssd # anything can be kept as a label for a node
+      containers:
+      - image: nginx 
+        name: nginx

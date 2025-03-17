@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-deployment
+  namespace: default
+  labels:
+    app: nfs-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nfs-app
+  template:
+    metadata:
+      labels:
+        app: nfs-app
+    spec:
+      restartPolicy: Always
+      volumes:
+      - name: my-volume
+        persistentVolumeClaim:
+          claimName: nfs-claim
+      containers:
+      - name: busybox
+        image: busybox
+        command: ['sh', '-c', 'while true; do echo Siva!!! >> /output/output.txt; sleep 5; done']
+        volumeMounts:
+        - name: my-volume
+          mountPath: /output

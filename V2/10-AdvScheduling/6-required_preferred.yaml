@@ -1,0 +1,41 @@
+
+# kubectl label node nodename cpus=intel
+# kubectl label node nodename2 cpus=intel
+# kubectl label node nodename3 cpu=amd
+# kubectl label node nodename dc=mum
+# kubectl label node nodename2 dc=mum
+# kubectl label node nodename3 dc=pune
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: req-pref
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - image: nginx
+          name: nginx
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: cpus
+                  operator: In
+                  values:
+                  - intel
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+                - key: dc
+                  operator: In
+                  values:
+                  - mum

@@ -1,0 +1,96 @@
+# bluePod
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-deploy 
+spec: 
+  selector: 
+    matchLabels:
+      env: blue
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        env: blue 
+    spec:
+      nodeSelector:
+        color: blue
+      containers:
+      - image: nginx 
+        name: nginx 
+      tolerations:
+      - key: "color"
+        value: "blue"
+        operator: "Equal"
+        effect: "NoSchedule"
+---
+# greenPod
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-deploy 
+spec: 
+  selector: 
+    matchLabels:
+      env: green
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        env: green
+    spec:
+      nodeSelector:
+        color: green
+      containers:
+      - image: nginx 
+        name: nginx 
+      tolerations:
+      - key: "color"
+        value: "green"
+        operator: "Equal"
+        effect: "NoSchedule"
+---
+# orangePod
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orange-deploy 
+spec: 
+  selector: 
+    matchLabels:
+      env: orange
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        env: orange
+    spec:
+      nodeSelector:
+        color: orange
+      containers:
+      - image: nginx 
+        name: nginx 
+      tolerations:
+      - key: "color"
+        value: "orange"
+        operator: "Equal"
+        effect: "NoSchedule"
+---
+# nocolorPod
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nocolor-deploy 
+spec: 
+  selector: 
+    matchLabels:
+      env: nocolor
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        env: nocolor 
+    spec:
+      containers:
+      - image: nginx 
+        name: nginx 

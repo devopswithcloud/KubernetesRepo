@@ -1,0 +1,53 @@
+# Deployment with PVC default 
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: default-deploy
+spec: # deployment spec
+  template:
+    metadata: 
+      labels:
+        app: busybox
+    spec: # Pod spec
+      volumes:
+      - name: my-volume
+        persistentVolumeClaim:
+          claimName: pvc-default
+      containers:
+      - image: busybox 
+        name: busybox
+        command: ["/bin/sh", "-c", "while true; do sleep 3600; done"]
+        volumeMounts:
+        - name: my-volume
+          mountPath: "/siva"
+  selector:
+    matchLabels:
+      app: busybox
+  replicas: 1
+---
+# Deployment with faster pvc
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: claim-deploy
+spec: # deployment spec
+  template:
+    metadata: 
+      labels:
+        app: busyboxs
+    spec: # Pod spec
+      volumes:
+      - name: my-volume
+        persistentVolumeClaim:
+          claimName: pvc-claim
+      containers:
+      - image: busybox 
+        name: busyboxs
+        command: ["/bin/sh", "-c", "while true; do sleep 3600; done"]
+        volumeMounts:
+        - name: my-volume
+          mountPath: "/sneha"
+  selector:
+    matchLabels:
+      app: busyboxs
+  replicas: 1
