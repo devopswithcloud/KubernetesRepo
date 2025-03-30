@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata: 
+  name: cronjob-job 
+spec:
+  template:
+    spec:
+      containers:
+      - name: busybox-container 
+        image: busybox-stable
+        imagePullPolicy: Always
+      restartPolicy: Never
+  backoffLimit: 4 # Number of retries before marking the job as failed.
+  activeDeadlineSeconds: 10 # Maximum tme the job can run
+  parallelism: 1 # Number of pods to run in parallel
+  completions: 1 # Number of pod to complete before marking the job as succesful.
+---
+#CronJob
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: print-date-cronjob
+spec:
+  schedule: "*/1 * * * *" # runs every 1 minute
+  successfulJobsHistoryLimit: 3 # Number of succesful jobs to keep
+  failedJobsHistoryLimit: 1 # number of failed jobs to keep
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: date-printer
+            image: busybox # busybox:latest
+            command: ["sh", "-c", "echo current date is: $(date)"]
+          restartPolicy: OnFailure
+          

@@ -1,0 +1,96 @@
+# Crate a namespace
+# assign quota to the namespace 
+# test our manifest 
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: quota-demo
+#kubectl create ns quota-demo
+---
+# ResourceQuota
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute-resources
+  namespace: quota-demo
+spec:
+  hard:
+    requests.cpu: "500m"
+    requests.memory: "1Gi"
+    limits.cpu: "1"
+    limits.memory: "2Gi"
+    pods: "2"
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: object-count-quota
+  namespace: quota-demo
+spec:
+  hard:
+    services: "2"
+    configmaps: "2"
+---
+# LimitRanges 
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: mem-cpu-limit-range
+  namespace: quota-demo
+spec:
+  limits:
+  - default:
+      cpu: "300m"
+      memory: "512Mi"
+    defaultRequest:
+      cpu: "200m"
+      memory: "256Mi"
+    type: Container
+---
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: pod-without-resources
+  namespace: quota-demo
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx 
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-1
+  namespace: quota-demo
+spec:
+  selector:
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80 
+    targetPort: 80
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: svc-2
+  namespace: quota-demo
+spec:
+  selector:
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80 
+    targetPort: 80
+---
+# Config Map
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-config
+  namespace: quota-demo
+data:
+  key: value

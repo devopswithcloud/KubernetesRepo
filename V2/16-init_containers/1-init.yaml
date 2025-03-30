@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-demo-pod
+spec:
+  # special container
+  initContainers:
+  - name: init-1
+    image: busybox
+    command: ['sh', '-c', 'echo "Init-1: Downloading config file......."; sleep 5']
+  - name: init-2
+    image: busybox
+    # Relication a failure scenario
+    command: ['sh', '-c', 'echo "Failing init......."; exit 1']
+    #command: ['sh', '-c', 'echo "Init-1: Checking DB Connectivity......."; sleep 10']
+  containers:
+  - name: nginx
+    image: nginx 
+    ports:
+    - containerPort: 80
