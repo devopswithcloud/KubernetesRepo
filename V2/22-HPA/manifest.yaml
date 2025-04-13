@@ -1,0 +1,69 @@
+# Create a deployment and service for the HPA with image gcr.io/kubernetes-e2e-test-images/resource-consumer:1.5
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hpa-deployment
+  labels:
+    app: hpa-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hpa-app
+  template:
+    metadata:
+      labels:
+        app: hpa-app
+    spec:
+      containers:
+      - name: hpa-container
+        image: gcr.io/kubernetes-e2e-test-images/resource-consumer:1.5
+        resources:
+          requests:
+            cpu: "100m" # 1/10 of a core
+            memory: "128Mi"
+---
+# Create HPA for the deployment
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-deployment
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: hpa-deployment
+  minReplicas: 1
+  maxReplicas: 5
+  #targetCPUUtilizationPercentage: 50
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50 # Target CPU utilization percentage
+----
+# service 
+apiVersion: v1
+kind: Service
+metadata:
+  name: hpa-service
+spec:
+  selector:
+    app: hpa-app
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+  type: LoadBalancer
+---
+
+# Curl image pod for testing 
+kubectl run test-pod --rm -it --image=curlimages/curl -- /bin/sh
+
+# Once logged in, do curl with clusterpip using below command
+curl CLUSTERIP:8080/ConsumeCPU -d "millicores=300&durationSec=120"
+
+# This wil scale the pods, from 1 to 5 max
