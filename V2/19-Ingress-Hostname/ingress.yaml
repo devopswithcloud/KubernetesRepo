@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress 
+metadata:
+  name: context-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce" #"gce-intenal" , "nginx" 
+spec:
+  rules:
+  - host: blue.i27academy.in
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: blue-service 
+            port:
+              number: 80
+  - host: green.i27academy.in
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: green-service 
+            port:
+              number: 80
+  - host: mygreen.i27academy.in
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: green-service 
+            port:
+              number: 80
+

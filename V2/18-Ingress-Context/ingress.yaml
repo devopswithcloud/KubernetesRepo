@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress 
+metadata:
+  name: context-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce" #"gce-intenal" , "nginx" 
+spec:
+  defaultBackend: #/
+    service: 
+      name: orange-service
+      port:
+        number: 80
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix
+        path: "/blue"
+        backend:
+          service:
+            name: blue-service 
+            port:
+              number: 80
+      - pathType: Prefix
+        path: "/green"
+        backend:
+          service:
+            name: green-service 
+            port:
+              number: 80
+      
+        

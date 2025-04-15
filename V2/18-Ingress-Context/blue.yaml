@@ -1,0 +1,33 @@
+# Blue Deployment 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-deployment 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blue-app
+  template:
+    metadata:
+      labels:
+        app: blue-app
+    spec:
+      containers:
+      - image: devopswithcloudhub/nginx:blue
+        name: bluepod
+        ports:
+        - containerPort: 80
+---
+# Blue Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: blue-service
+spec:
+  type: NodePort
+  selector:
+    app: blue-app
+  ports:
+  - port: 80
+    targetPort: 80

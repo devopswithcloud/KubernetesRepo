@@ -1,0 +1,22 @@
+# Kubectl create secret tls dev-tls-secret --cert=path/to/cert/file --key=path/to/key/file
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress 
+metadata:
+  name: tls-ingress-selfsigned
+  annotations:
+    kubernetes.io/ingress.class: "gce" #"gce-intenal" , "nginx" 
+spec:
+  tls:
+  - secretName: dev-tls-secret
+  rules:
+  - host: dev.i27academy.in
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: blue-service 
+            port:
+              number: 80

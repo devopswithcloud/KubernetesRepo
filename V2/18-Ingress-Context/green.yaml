@@ -1,0 +1,33 @@
+# green Deployment 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-deployment 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: green-app
+  template:
+    metadata:
+      labels:
+        app: green-app
+    spec:
+      containers:
+      - image: devopswithcloudhub/nginx:green
+        name: greenpod
+        ports:
+        - containerPort: 80
+---
+# green Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: green-service
+spec:
+  type: NodePort
+  selector:
+    app: green-app
+  ports:
+  - port: 80
+    targetPort: 80

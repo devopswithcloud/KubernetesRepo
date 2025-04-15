@@ -1,0 +1,33 @@
+# orange Deployment 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orange-deployment 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orange-app
+  template:
+    metadata:
+      labels:
+        app: orange-app
+    spec:
+      containers:
+      - image: devopswithcloudhub/nginx:orange
+        name: orangepod
+        ports:
+        - containerPort: 80
+---
+# orange Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: orange-service
+spec:
+  type: NodePort
+  selector:
+    app: orange-app
+  ports:
+  - port: 80
+    targetPort: 80
