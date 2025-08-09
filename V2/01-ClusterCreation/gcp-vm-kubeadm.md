@@ -202,7 +202,8 @@ sudo bash ~/base-setup.sh | tee ~/base-setup.log
 ```bash
 export POD_CIDR="192.168.0.0/16"
 export APISERVER_ADVERTISE_ADDRESS="$(hostname -I | awk '{print $1}')"
-sudo kubeadm reset -f || true
+# dont execute the below command if no issues are observerd during initialisation
+#sudo kubeadm reset -f || true
 sudo kubeadm init --pod-network-cidr=${POD_CIDR} --apiserver-advertise-address=${APISERVER_ADVERTISE_ADDRESS}
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
