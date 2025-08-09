@@ -16,7 +16,6 @@ terraform {
       version = ">= 5.30"
     }
   }
-  required_version = ">= 1.6"
 }
 
 provider "google" {
@@ -45,23 +44,38 @@ resource "google_compute_subnetwork" "subnet" {
 resource "google_compute_firewall" "ssh_icmp" {
   name    = "kubeadm-allow-ssh-icmp"
   network = google_compute_network.vpc.name
-  allow { protocol = "tcp" ports = ["22"] }
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
   allow { protocol = "icmp" }
   source_ranges = ["0.0.0.0/0"]
 }
 
+
 resource "google_compute_firewall" "k8s_cp" {
   name    = "kubeadm-k8s-cp"
   network = google_compute_network.vpc.name
-  allow { protocol = "tcp" ports = ["6443","2379-2380","10250-10259"] }
+  allow {
+    protocol = "tcp"
+    ports    = ["6443","2379-2380","10250-10259"]
+  }
   source_ranges = ["0.0.0.0/0"]
 }
+
+
 
 resource "google_compute_firewall" "k8s_workers" {
   name    = "kubeadm-k8s-workers"
   network = google_compute_network.vpc.name
-  allow { protocol = "tcp" ports = ["10250","30000-32767","179"] }
-  allow { protocol = "udp" ports = ["4789"] }
+  allow { 
+    protocol = "tcp" 
+    ports = ["10250","30000-32767","179"] 
+  }
+  allow { 
+    protocol = "udp" 
+    ports = ["4789"] 
+  }
   source_ranges = ["0.0.0.0/0"]
 }
 
