@@ -50,9 +50,9 @@ data:
 * Encoded in **Base64** (not encryption, just encoding).
 * Prevents exposing credentials in Pod specs.
 * Kubernetes secretes has 3 available commands
-    * generic: generic secret holds any key value pair
-    * tls: secret for holding private-public key for communicating with TLS protocol
-    * docker-registry: This is special kind of secret that stores usernames and passwords to connect to private registries
+    * `generic`: generic secret holds any key value pair
+    * `tls`: secret for holding private-public key for communicating with TLS protocol
+    * `docker-registry`: This is special kind of secret that stores usernames and passwords to connect to private registries
 
 ### Example: Create Secret
 
