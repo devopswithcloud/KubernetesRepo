@@ -28,6 +28,18 @@ metadata:
 data:
   APP_ENV: "production"
   APP_DEBUG: "false"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config
+data:
+  name: siva
+  course: k8s
+  key3: |
+    Hello
+    Welcome to Config maps
+    Multiline testing
 ```
 
 ---
