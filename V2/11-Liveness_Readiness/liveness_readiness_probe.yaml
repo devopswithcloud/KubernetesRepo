@@ -1,0 +1,52 @@
+# Deployment 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: i27-node-probes
+spec:
+  replicas: 2
+  selector: 
+    matchLabels:
+      app: i27-node-probes
+  template: 
+    metadata: 
+      labels:
+        app: i27-node-probes
+    spec:
+      containers:
+      - name: nodeapp
+        image: i27devopsb8/node:livereadv1
+        ports:
+        - containerPort: 3000
+        # liveness probe
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 2
+          failureThreshold: 3
+        # readiness probe
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 2
+          failureThreshold: 3
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: i27-node-probes-service
+spec:
+  selector:
+    app: i27-node-probes
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: NodePort
