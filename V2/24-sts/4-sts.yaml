@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  serviceName: mysql
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      initContainers:
+      - name: init-mysql
+        image: busybox:1.36
+        command:
+          - sh
+          - -c
+          - |
+            ORDINAL=$(hostname | awk -F'-' '{print $NF}')
+            SERVER_ID=$((ORDINAL + 1))
+            echo "[mysqld]" > /mnt/conf.d/server-id.cnf
+            echo "server-id=${SERVER_ID}" >> /mnt/conf.d/server-id.cnf
+        volumeMounts:
+          - name: mysql-conf
+            mountPath: /mnt/conf.d
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        ports:
+          - containerPort: 3306
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: rootpass
+          - name: MYSQL_DATABASE
+            value: appdb
+        volumeMounts:
+          - name: mysql-data
+            mountPath: /var/lib/mysql
+          # Writable config dir (MySQL reads *.cnf from here)
+          - name: mysql-conf
+            mountPath: /etc/mysql/conf.d
+          # Static config injected as ONE file
+          - name: mysql-config
+            mountPath: /etc/mysql/conf.d/base.cnf
+            subPath: base.cnf
+      volumes:
+        - name: mysql-config
+          configMap:
+            name: mysql-config
+        - name: mysql-conf
+          emptyDir: {}
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: mysql-fast
+      resources:
+        requests:
+          storage: 20Gi
